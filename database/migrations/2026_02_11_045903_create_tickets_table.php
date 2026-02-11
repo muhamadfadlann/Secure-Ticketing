@@ -13,6 +13,24 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            
+            // Foreign key ke tabel users
+            // onDelete('cascade') = jika user dihapus, tiketnya juga terhapus
+            $table->foreignId('user_id');
+            
+            // Judul tiket - wajib diisi, max 255 karakter
+            $table->string('title');
+            
+            // Deskripsi tiket - text panjang
+            $table->text('description');
+            
+            // Status tiket dengan nilai default 'open'
+            $table->enum('status', ['open', 'in_progress', 'closed'])->default('open');
+            
+            // Prioritas tiket dengan nilai default 'medium'
+            $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
+            
+            // Timestamps: created_at dan updated_at
             $table->timestamps();
         });
     }
