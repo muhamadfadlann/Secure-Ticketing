@@ -85,9 +85,9 @@ class XSSLabController extends Controller
     {
         // ❌ VULNERABLE: Tidak ada validasi/sanitasi yang proper
         Comment::create([
-            'ticket_id' => $request->ticket_id ?? 1,
-            'author_name' => $request->author_name,
-            'content' => $request->content,
+            'ticket_id' => $request->input('ticket_id') ?? 1,
+            'author_name' => $request->input('author_name'),
+            'content' => $request->input('content'),
         ]);
 
         return redirect()->route('xss-lab.stored.vulnerable')
