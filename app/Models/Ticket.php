@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -68,6 +70,17 @@ class Ticket extends Model
     }
 
     /**
+     * Relasi: Ticket has many Comments
+     * 
+     * Satu tiket bisa memiliki banyak komentar
+     * Penggunaan: $ticket->comments
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * Scope untuk filter tiket berdasarkan status
      * 
      * Penggunaan: Ticket::status('open')->get()
@@ -94,7 +107,7 @@ class Ticket extends Model
      */
     public function getStatusBadgeAttribute(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             'open' => 'bg-warning',
             'in_progress' => 'bg-info',
             'closed' => 'bg-success',
@@ -109,7 +122,7 @@ class Ticket extends Model
      */
     public function getPriorityBadgeAttribute(): string
     {
-        return match($this->priority) {
+        return match ($this->priority) {
             'low' => 'bg-secondary',
             'medium' => 'bg-primary',
             'high' => 'bg-danger',
